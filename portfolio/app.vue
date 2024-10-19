@@ -1,7 +1,12 @@
+<script setup>
+useHead({
+  titleTemplate: '%s - Portfolio',
+})
+</script>
+
 <template>
-  <div>
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </div>
+  <NuxtLayout>
+    <NuxtLoadingIndicator />
+    <NuxtPage />
+  </NuxtLayout>
 </template>
