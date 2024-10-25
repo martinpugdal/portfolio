@@ -26,7 +26,7 @@
     <main class="container mx-auto px-4 py-12 mt-16">
       <!-- About Section (Updated) -->
       <section id="about" class="mb-16 alignScrollABit">
-        <h2 class="text-3xl font-bold mb-8 text-primary text-center">About Me</h2>
+        <h2 class="text-3xl font-bold mb-8 text-primary text-center">Om mig</h2>
         <div class="flex flex-col md:flex-row items-center md:items-start gap-8 bg-card text-card-foreground rounded-lg shadow-lg p-6">
           <div class="w-48 h-48 md:w-64 md:h-64 relative">
             <img 
@@ -62,8 +62,8 @@
             <div class="p-6">
               <h3 class="text-xl font-semibold mb-2">{{ project.title }}</h3>
               <p class="mb-4">{{ project.description }}</p>
-              <a :href="project.link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-6 py-3">
-                View Project
+              <a :href="project.link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-6 py-3">
+                Se projekt
               </a>
             </div>
           </div>
@@ -72,10 +72,10 @@
 
       <!-- Contact Form -->
       <section id="contact" class="alignScrollABit">
-        <h2 class="text-3xl font-bold mb-4">Contact Me</h2>
+        <h2 class="text-3xl font-bold mb-4">Kontakt mig</h2>
         <form @submit.prevent="handleSubmit" class="bg-card text-card-foreground rounded-lg shadow-lg p-6">
           <div class="mb-4">
-            <label for="name" class="block text-sm font-medium mb-1">Name</label>
+            <label for="name" class="block text-sm font-medium mb-1">Navn</label>
             <input
               id="name"
               v-model="form.name"
@@ -95,7 +95,7 @@
             />
           </div>
           <div class="mb-4">
-            <label for="message" class="block text-sm font-medium mb-1">Message</label>
+            <label for="message" class="block text-sm font-medium mb-1">Besked</label>
             <textarea
               id="message"
               v-model="form.message"
@@ -105,7 +105,7 @@
             ></textarea>
           </div>
           <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-6 py-3">
-            Send Message
+            Send besked
           </button>
         </form>
       </section>
@@ -121,6 +121,7 @@
 </template>
 
 <script setup>
+// projects
 const projects = ref([
   {
     id: 1,
@@ -152,12 +153,37 @@ const projects = ref([
   }
 ])
 
+// nav bar
+const navItems = [
+  { label: 'Om mig', section: 'about' },
+  { label: 'Projekter', section: 'projects' },
+  { label: 'Kontakt', section: 'contact' },
+]
+
+// forms
 const form = ref({
   name: '',
   email: '',
   message: ''
 })
+const handleSubmit = () => {
+  form.value = { name: '', email: '', message: '' }
+  alert('Tak fordi du tog dig til at skrive til mig, jeg svarer dig når jeg har set din besked')
+}
 
+// scroll
+const isScrolled = ref(false)
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 50
+}
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+  window.addEventListener('resize', handleScroll)
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', handleScroll)
+})
 const smoothScroll = (section) => {
   document.getElementById(section).scrollIntoView(
     {
@@ -165,33 +191,6 @@ const smoothScroll = (section) => {
     }
   );
 }
-
-const handleSubmit = () => {
-  // Here you would typically send the form data to a server
-  console.log('Form submitted:', form.value)
-  // Reset form after submission
-  form.value = { name: '', email: '', message: '' }
-  alert('Thank you for your message! I will get back to you soon.')
-}
-
-const isScrolled = ref(false)
-const navItems = [
-  { label: 'About', section: 'about' },
-  { label: 'Projects', section: 'projects' },
-  { label: 'Contact', section: 'contact' },
-]
-
-const handleScroll = () => {
-  isScrolled.value = window.scrollY > 50
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
 </script>
 
 <style>
